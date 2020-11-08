@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.UserDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="progress_id" jdbcType="INTEGER" property="progressId" />
+    <result column="income_stage_id" jdbcType="INTEGER" property="incomeStageId" />
+    <result column="video_record_id" jdbcType="INTEGER" property="videoRecordId" />
+    <result column="user_info_id" jdbcType="INTEGER" property="userInfoId" />
+    <result column="from_id" jdbcType="INTEGER" property="fromId" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="app_open_id" jdbcType="VARCHAR" property="appOpenId" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="invite_code" jdbcType="VARCHAR" property="inviteCode" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="level_img" jdbcType="INTEGER" property="levelImg" />
+    <result column="invite_ticket_num" jdbcType="INTEGER" property="inviteTicketNum" />
+    <result column="pet_list" jdbcType="VARCHAR" property="petList" />
+    <result column="level_income" jdbcType="VARCHAR" property="levelIncome" />
+    <result column="gold_all" jdbcType="VARCHAR" property="goldAll" />
+    <result column="gold_usable" jdbcType="VARCHAR" property="goldUsable" />
+    <result column="profit_speed" jdbcType="VARCHAR" property="profitSpeed" />
+    <result column="gold_get_time" jdbcType="TIMESTAMP" property="goldGetTime" />
+    <result column="is_gold_get" jdbcType="INTEGER" property="isGoldGet" />
+    <result column="is_effect" jdbcType="INTEGER" property="isEffect" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_staus" jdbcType="INTEGER" property="isStaus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, progress_id, income_stage_id, video_record_id, user_info_id, from_id, open_id, 
+    app_open_id, nick_name, avatar_url, gender, invite_code, tel, `level`, level_img, 
+    invite_ticket_num, pet_list, level_income, gold_all, gold_usable, profit_speed, gold_get_time, 
+    is_gold_get, is_effect, login_time, create_time, update_time, is_staus
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.koi.po.User" useGeneratedKeys="true">
+    insert into user (progress_id, income_stage_id, video_record_id, 
+      user_info_id, from_id, open_id, 
+      app_open_id, nick_name, avatar_url, 
+      gender, invite_code, tel, 
+      `level`, level_img, invite_ticket_num, 
+      pet_list, level_income, gold_all, 
+      gold_usable, profit_speed, gold_get_time, 
+      is_gold_get, is_effect, login_time, 
+      create_time, update_time, is_staus
+      )
+    values (#{progressId,jdbcType=INTEGER}, #{incomeStageId,jdbcType=INTEGER}, #{videoRecordId,jdbcType=INTEGER}, 
+      #{userInfoId,jdbcType=INTEGER}, #{fromId,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, 
+      #{appOpenId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=INTEGER}, #{inviteCode,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{levelImg,jdbcType=INTEGER}, #{inviteTicketNum,jdbcType=INTEGER}, 
+      #{petList,jdbcType=VARCHAR}, #{levelIncome,jdbcType=VARCHAR}, #{goldAll,jdbcType=VARCHAR}, 
+      #{goldUsable,jdbcType=VARCHAR}, #{profitSpeed,jdbcType=VARCHAR}, #{goldGetTime,jdbcType=TIMESTAMP}, 
+      #{isGoldGet,jdbcType=INTEGER}, #{isEffect,jdbcType=INTEGER}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isStaus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="com.koi.po.User" useGeneratedKeys="true">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="progressId != null">
+        progress_id,
+      </if>
+      <if test="incomeStageId != null">
+        income_stage_id,
+      </if>
+      <if test="videoRecordId != null">
+        video_record_id,
+      </if>
+      <if test="userInfoId != null">
+        user_info_id,
+      </if>
+      <if test="fromId != null">
+        from_id,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="appOpenId != null">
+        app_open_id,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="inviteCode != null">
+        invite_code,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="level != null">
+        `level`,
+      </if>
+      <if test="levelImg != null">
+        level_img,
+      </if>
+      <if test="inviteTicketNum != null">
+        invite_ticket_num,
+      </if>
+      <if test="petList != null">
+        pet_list,
+      </if>
+      <if test="levelIncome != null">
+        level_income,
+      </if>
+      <if test="goldAll != null">
+        gold_all,
+      </if>
+      <if test="goldUsable != null">
+        gold_usable,
+      </if>
+      <if test="profitSpeed != null">
+        profit_speed,
+      </if>
+      <if test="goldGetTime != null">
+        gold_get_time,
+      </if>
+      <if test="isGoldGet != null">
+        is_gold_get,
+      </if>
+      <if test="isEffect != null">
+        is_effect,
+      </if>
+      <if test="loginTime != null">
+        login_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isStaus != null">
+        is_staus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="progressId != null">
+        #{progressId,jdbcType=INTEGER},
+      </if>
+      <if test="incomeStageId != null">
+        #{incomeStageId,jdbcType=INTEGER},
+      </if>
+      <if test="videoRecordId != null">
+        #{videoRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="userInfoId != null">
+        #{userInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="fromId != null">
+        #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="appOpenId != null">
+        #{appOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="inviteCode != null">
+        #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="levelImg != null">
+        #{levelImg,jdbcType=INTEGER},
+      </if>
+      <if test="inviteTicketNum != null">
+        #{inviteTicketNum,jdbcType=INTEGER},
+      </if>
+      <if test="petList != null">
+        #{petList,jdbcType=VARCHAR},
+      </if>
+      <if test="levelIncome != null">
+        #{levelIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="goldAll != null">
+        #{goldAll,jdbcType=VARCHAR},
+      </if>
+      <if test="goldUsable != null">
+        #{goldUsable,jdbcType=VARCHAR},
+      </if>
+      <if test="profitSpeed != null">
+        #{profitSpeed,jdbcType=VARCHAR},
+      </if>
+      <if test="goldGetTime != null">
+        #{goldGetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isGoldGet != null">
+        #{isGoldGet,jdbcType=INTEGER},
+      </if>
+      <if test="isEffect != null">
+        #{isEffect,jdbcType=INTEGER},
+      </if>
+      <if test="loginTime != null">
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isStaus != null">
+        #{isStaus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.User">
+    update user
+    <set>
+      <if test="progressId != null">
+        progress_id = #{progressId,jdbcType=INTEGER},
+      </if>
+      <if test="incomeStageId != null">
+        income_stage_id = #{incomeStageId,jdbcType=INTEGER},
+      </if>
+      <if test="videoRecordId != null">
+        video_record_id = #{videoRecordId,jdbcType=INTEGER},
+      </if>
+      <if test="userInfoId != null">
+        user_info_id = #{userInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="fromId != null">
+        from_id = #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="appOpenId != null">
+        app_open_id = #{appOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="inviteCode != null">
+        invite_code = #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        `level` = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="levelImg != null">
+        level_img = #{levelImg,jdbcType=INTEGER},
+      </if>
+      <if test="inviteTicketNum != null">
+        invite_ticket_num = #{inviteTicketNum,jdbcType=INTEGER},
+      </if>
+      <if test="petList != null">
+        pet_list = #{petList,jdbcType=VARCHAR},
+      </if>
+      <if test="levelIncome != null">
+        level_income = #{levelIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="goldAll != null">
+        gold_all = #{goldAll,jdbcType=VARCHAR},
+      </if>
+      <if test="goldUsable != null">
+        gold_usable = #{goldUsable,jdbcType=VARCHAR},
+      </if>
+      <if test="profitSpeed != null">
+        profit_speed = #{profitSpeed,jdbcType=VARCHAR},
+      </if>
+      <if test="goldGetTime != null">
+        gold_get_time = #{goldGetTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isGoldGet != null">
+        is_gold_get = #{isGoldGet,jdbcType=INTEGER},
+      </if>
+      <if test="isEffect != null">
+        is_effect = #{isEffect,jdbcType=INTEGER},
+      </if>
+      <if test="loginTime != null">
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isStaus != null">
+        is_staus = #{isStaus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.User">
+    update user
+    set progress_id = #{progressId,jdbcType=INTEGER},
+      income_stage_id = #{incomeStageId,jdbcType=INTEGER},
+      video_record_id = #{videoRecordId,jdbcType=INTEGER},
+      user_info_id = #{userInfoId,jdbcType=INTEGER},
+      from_id = #{fromId,jdbcType=INTEGER},
+      open_id = #{openId,jdbcType=VARCHAR},
+      app_open_id = #{appOpenId,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      invite_code = #{inviteCode,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      `level` = #{level,jdbcType=INTEGER},
+      level_img = #{levelImg,jdbcType=INTEGER},
+      invite_ticket_num = #{inviteTicketNum,jdbcType=INTEGER},
+      pet_list = #{petList,jdbcType=VARCHAR},
+      level_income = #{levelIncome,jdbcType=VARCHAR},
+      gold_all = #{goldAll,jdbcType=VARCHAR},
+      gold_usable = #{goldUsable,jdbcType=VARCHAR},
+      profit_speed = #{profitSpeed,jdbcType=VARCHAR},
+      gold_get_time = #{goldGetTime,jdbcType=TIMESTAMP},
+      is_gold_get = #{isGoldGet,jdbcType=INTEGER},
+      is_effect = #{isEffect,jdbcType=INTEGER},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_staus = #{isStaus,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <!--通过手机号查询该手机号是否已被绑定 -->
+  <select id="findUserByPhone" resultType="int">
+  	SELECT COUNT(user_id) FROM USER WHERE tel=#{phone}
+  </select>
+  <!-- 通过邀请码查询师傅信息 -->
+  <select id="findUserByInviteCode" resultMap="BaseResultMap">
+  	SELECT * FROM USER WHERE invite_code=#{inviteCode}
+  </select>
+  <!-- 徒弟信息 -->
+  <resultMap type="com.koi.vo.TeamVo" id="treeMap">
+	<id property="userId" column="user_Id"/>
+    <result property="fromId" column="from_id"/>
+    <result property="nickName" column="nick_name"/>
+    <result property="level" column="level"/>
+    <result property="isEffect" column="is_effect"/>
+    <result property="createTime" column="create_time"/>
+    <!--通过徒弟Id查询当前用户的徒孙 -->
+	<collection  property="children" column="{userId=user_Id}" select="findChildren" ofType="com.koi.vo.TeamVo"/>
+  </resultMap>
+   <resultMap type="com.koi.vo.TeamVo" id="treeChildrenMap">
+	<id property="userId" column="user_Id"/>
+    <result property="fromId" column="from_id"/>
+    <result property="nickName" column="nick_name"/>
+    <result property="level" column="level"/>
+    <result property="isEffect" column="is_effect"/>
+    <result property="createTime" column="create_time"/>
+    <!-- 徒孙信息 -->
+  </resultMap>
+ 	<!--  通过userId查询当前用户的徒弟 -->
+	<select id="findChildsByUserId" resultMap="treeMap" >
+		SELECT user_id,from_id,nick_name,level,create_time,is_effect 
+		FROM user 
+		WHERE from_id = #{userId} ORDER BY create_time DESC 
+	</select>
+	<!--  通过徒弟Id查询当前用户的徒孙 -->
+	<select id="findChildren" resultMap="treeChildrenMap">
+	    SELECT user_id,from_id,nick_name,level,create_time,is_effect 
+		FROM user 
+		WHERE from_id =#{userId} ORDER BY create_time DESC 
+	</select>
+	<!-- 通过用户ID查询上级信息 -->
+	<select id="findFromUser" resultMap="BaseResultMap">
+		SELECT  
+		<include refid="Base_Column_List" /> 
+	    FROM USER 
+	    WHERE user_id=(SELECT from_id FROM USER WHERE user_id=#{userId})
+	</select>
+	<!-- 获取徒弟数和其算力数 -->
+	<select id="findTeamNumAndPowerNum" resultType="java.util.Map">
+		SELECT COUNT(*) AS teamNum,SUM(profit_num)AS powerNum FROM power_record WHERE user_id=#{userId} AND source_type_id=#{sourceTypeId}
+	</select>
+	<!-- 获取邀请卷数量 -->
+	<select id="findInviteNum" resultType="int">
+		SELECT invite_ticket_num FROM USER WHERE user_id=#{userId}
+	</select>
+	<!-- 查询排行榜信息 -->
+	<select id="findRankingInfo" resultMap="BaseResultMap">
+		SELECT * FROM USER ORDER BY gold_all DESC LIMIT 0,100
+	</select>
+ </mapper>

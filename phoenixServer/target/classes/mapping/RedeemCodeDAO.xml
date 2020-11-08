@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.RedeemCodeDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.RedeemCode">
+    <id column="redeem_code_id" jdbcType="INTEGER" property="redeemCodeId" />
+    <result column="bet_id" jdbcType="INTEGER" property="betId" />
+    <result column="redeem_code" jdbcType="INTEGER" property="redeemCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    redeem_code_id, bet_id, redeem_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from redeem_code
+    where redeem_code_id = #{redeemCodeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from redeem_code
+    where redeem_code_id = #{redeemCodeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="redeem_code_id" keyProperty="redeemCodeId" parameterType="com.koi.po.RedeemCode" useGeneratedKeys="true">
+    insert into redeem_code (bet_id, redeem_code)
+    values (#{betId,jdbcType=INTEGER}, #{redeemCode,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="redeem_code_id" keyProperty="redeemCodeId" parameterType="com.koi.po.RedeemCode" useGeneratedKeys="true">
+    insert into redeem_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="betId != null">
+        bet_id,
+      </if>
+      <if test="redeemCode != null">
+        redeem_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="betId != null">
+        #{betId,jdbcType=INTEGER},
+      </if>
+      <if test="redeemCode != null">
+        #{redeemCode,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.RedeemCode">
+    update redeem_code
+    <set>
+      <if test="betId != null">
+        bet_id = #{betId,jdbcType=INTEGER},
+      </if>
+      <if test="redeemCode != null">
+        redeem_code = #{redeemCode,jdbcType=INTEGER},
+      </if>
+    </set>
+    where redeem_code_id = #{redeemCodeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.RedeemCode">
+    update redeem_code
+    set bet_id = #{betId,jdbcType=INTEGER},
+      redeem_code = #{redeemCode,jdbcType=INTEGER}
+    where redeem_code_id = #{redeemCodeId,jdbcType=INTEGER}
+  </update>
+  <!-- 批量新增兑换码 -->
+  <insert id="insertByBatch" parameterType="java.util.List">
+ 	 insert into redeem_code (bet_id, redeem_code)values 
+ 	<foreach collection="list" item="redeemCode" separator=",">
+ 	 (#{redeemCode.betId,jdbcType=INTEGER}, #{redeemCode.redeemCode,jdbcType=INTEGER})
+ 	</foreach>
+  </insert>
+  <!-- 查询兑换码 -->
+  <select id="findRedeemCode" resultType="java.lang.String">
+  	SELECT r.redeem_code FROM redeem_code r,bet WHERE r.bet_id=bet.bet_id AND bet.issue_id=#{issueId} AND bet.user_id=#{userId} ORDER BY r.redeem_code 
+  </select>
+</mapper>

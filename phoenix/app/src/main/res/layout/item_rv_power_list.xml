@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_border_bottom">
+    <TextView
+        android:id="@+id/tv_power_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="2020-05-28"
+        android:textSize="12dp"
+        android:textColor="@color/colorBlack"/>
+    <TextView
+        android:id="@+id/tv_power_sourceName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="签到获取能量"
+        android:textSize="12dp"
+        android:textColor="@color/colorBlack"/>
+    <TextView
+        android:id="@+id/tv_power_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+4"
+        android:textSize="12dp"
+        android:textColor="@color/colorPrimary"/>
+</LinearLayout>

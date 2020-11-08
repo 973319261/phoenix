@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.WithdrawSettingDetailDAO">
+  <resultMap id="BaseResultMap" type="com.koi.vo.WithdrawSettingVo">
+    <id column="withdraw_setting_detail_id" jdbcType="INTEGER" property="withdrawSettingDetailId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="withdraw_setting_id" jdbcType="INTEGER" property="withdrawSettingId" />
+    <result column="is_switch" jdbcType="INTEGER" property="isSwitch" />
+    <result column="withdraw_money" jdbcType="DECIMAL" property="withdrawMoney" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from withdraw_setting_detail
+    where withdraw_setting_detail_id = #{withdrawSettingDetailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="withdraw_setting_detail_id" keyProperty="withdrawSettingDetailId" parameterType="com.koi.po.WithdrawSettingDetail" useGeneratedKeys="true">
+    insert into withdraw_setting_detail (user_id, withdraw_setting_id, is_switch
+      )
+    values (#{userId,jdbcType=INTEGER}, #{withdrawSettingId,jdbcType=INTEGER}, #{isSwitch,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="withdraw_setting_detail_id" keyProperty="withdrawSettingDetailId" parameterType="com.koi.po.WithdrawSettingDetail" useGeneratedKeys="true">
+    insert into withdraw_setting_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="withdrawSettingId != null">
+        withdraw_setting_id,
+      </if>
+      <if test="isSwitch != null">
+        is_switch,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawSettingId != null">
+        #{withdrawSettingId,jdbcType=INTEGER},
+      </if>
+      <if test="isSwitch != null">
+        #{isSwitch,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.WithdrawSettingDetail">
+    update withdraw_setting_detail
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawSettingId != null">
+        withdraw_setting_id = #{withdrawSettingId,jdbcType=INTEGER},
+      </if>
+      <if test="isSwitch != null">
+        is_switch = #{isSwitch,jdbcType=INTEGER},
+      </if>
+    </set>
+    where withdraw_setting_detail_id = #{withdrawSettingDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.WithdrawSettingDetail">
+    update withdraw_setting_detail
+    set user_id = #{userId,jdbcType=INTEGER},
+      withdraw_setting_id = #{withdrawSettingId,jdbcType=INTEGER},
+      is_switch = #{isSwitch,jdbcType=INTEGER}
+    where withdraw_setting_detail_id = #{withdrawSettingDetailId,jdbcType=INTEGER}
+  </update>
+   <!-- 批量新增钱包设置明细 -->
+  <insert id="insertByBatch" parameterType="java.util.List">
+ 	 insert into withdraw_setting_detail (user_id, withdraw_setting_id, is_switch) values 
+ 	<foreach collection="list" item="withdrawSettingDetail" separator=",">
+ 		(#{withdrawSettingDetail.userId,jdbcType=INTEGER}, #{withdrawSettingDetail.withdrawSettingId,jdbcType=INTEGER}, #{withdrawSettingDetail.isSwitch,jdbcType=INTEGER})
+ 	</foreach>
+  </insert>
+  <!--查询前6条有效钱包设置明细列表 -->
+   <select id="findWithdrawSettingByUserId" resultMap="BaseResultMap">
+    SELECT * FROM withdraw_setting_detail w,withdraw_setting WHERE w.withdraw_setting_id=withdraw_setting.withdraw_setting_id 
+    AND is_switch = 1 AND user_id=43 ORDER BY withdraw_money LIMIT 0,6
+  </select>
+</mapper>

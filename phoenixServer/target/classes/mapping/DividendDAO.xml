@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.DividendDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.Dividend">
+    <id column="dividend_id" jdbcType="INTEGER" property="dividendId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="source_type_id" jdbcType="INTEGER" property="sourceTypeId" />
+    <result column="dividend_num" jdbcType="INTEGER" property="dividendNum" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="audit_state" jdbcType="INTEGER" property="auditState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dividend_id, user_id, source_type_id, dividend_num, create_time, audit_state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dividend
+    where dividend_id = #{dividendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dividend
+    where dividend_id = #{dividendId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="dividend_id" keyProperty="dividendId" parameterType="com.koi.po.Dividend" useGeneratedKeys="true">
+    insert into dividend (user_id, source_type_id, dividend_num, 
+      create_time, audit_state)
+    values (#{userId,jdbcType=INTEGER}, #{sourceTypeId,jdbcType=INTEGER}, #{dividendNum,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{auditState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="dividend_id" keyProperty="dividendId" parameterType="com.koi.po.Dividend" useGeneratedKeys="true">
+    insert into dividend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="sourceTypeId != null">
+        source_type_id,
+      </if>
+      <if test="dividendNum != null">
+        dividend_num,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="auditState != null">
+        audit_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sourceTypeId != null">
+        #{sourceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="dividendNum != null">
+        #{dividendNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditState != null">
+        #{auditState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.Dividend">
+    update dividend
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sourceTypeId != null">
+        source_type_id = #{sourceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="dividendNum != null">
+        dividend_num = #{dividendNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditState != null">
+        audit_state = #{auditState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where dividend_id = #{dividendId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.Dividend">
+    update dividend
+    set user_id = #{userId,jdbcType=INTEGER},
+      source_type_id = #{sourceTypeId,jdbcType=INTEGER},
+      dividend_num = #{dividendNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      audit_state = #{auditState,jdbcType=INTEGER}
+    where dividend_id = #{dividendId,jdbcType=INTEGER}
+  </update>
+  <!-- 通过用户查询该用户是否存在分红 -->
+  <select id="findDividenByUserId" resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+    from dividend
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+</mapper>

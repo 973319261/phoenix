@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.VideoRecordDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.VideoRecord">
+    <id column="video_record_id" jdbcType="INTEGER" property="videoRecordId" />
+    <result column="video_record_num" jdbcType="INTEGER" property="videoRecordNum" />
+    <result column="video_record_use_num" jdbcType="INTEGER" property="videoRecordUseNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    video_record_id, video_record_num, video_record_use_num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from video_record
+    where video_record_id = #{videoRecordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from video_record
+    where video_record_id = #{videoRecordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="video_record_id" keyProperty="videoRecordId" parameterType="com.koi.po.VideoRecord" useGeneratedKeys="true">
+    insert into video_record (video_record_num, video_record_use_num
+      )
+    values (#{videoRecordNum,jdbcType=INTEGER}, #{videoRecordUseNum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="video_record_id" keyProperty="videoRecordId" parameterType="com.koi.po.VideoRecord" useGeneratedKeys="true">
+    insert into video_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="videoRecordNum != null">
+        video_record_num,
+      </if>
+      <if test="videoRecordUseNum != null">
+        video_record_use_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="videoRecordNum != null">
+        #{videoRecordNum,jdbcType=INTEGER},
+      </if>
+      <if test="videoRecordUseNum != null">
+        #{videoRecordUseNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.VideoRecord">
+    update video_record
+    <set>
+      <if test="videoRecordNum != null">
+        video_record_num = #{videoRecordNum,jdbcType=INTEGER},
+      </if>
+      <if test="videoRecordUseNum != null">
+        video_record_use_num = #{videoRecordUseNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where video_record_id = #{videoRecordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.VideoRecord">
+    update video_record
+    set video_record_num = #{videoRecordNum,jdbcType=INTEGER},
+      video_record_use_num = #{videoRecordUseNum,jdbcType=INTEGER}
+    where video_record_id = #{videoRecordId,jdbcType=INTEGER}
+  </update>
+  <!-- 通过用户ID查询视频观看记录 -->
+  <select id="findVideoRecordByUserId" resultMap="BaseResultMap">
+  	SELECT v.* FROM video_record v,USER WHERE user.video_record_id=v.video_record_id AND user_id=#{userId}
+  </select>
+</mapper>

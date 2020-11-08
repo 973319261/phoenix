@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.DividendIncomeDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.DividendIncome">
+    <id column="dividend_income_id" jdbcType="INTEGER" property="dividendIncomeId" />
+    <result column="avg_income_yesday" jdbcType="DECIMAL" property="avgIncomeYesday" />
+    <result column="ad_income_yesday" jdbcType="DECIMAL" property="adIncomeYesday" />
+    <result column="ad_income_all" jdbcType="DECIMAL" property="adIncomeAll" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dividend_income_id, avg_income_yesday, ad_income_yesday, ad_income_all
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dividend_income
+    where dividend_income_id = #{dividendIncomeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dividend_income
+    where dividend_income_id = #{dividendIncomeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="dividend_income_id" keyProperty="dividendIncomeId" parameterType="com.koi.po.DividendIncome" useGeneratedKeys="true">
+    insert into dividend_income (avg_income_yesday, ad_income_yesday, 
+      ad_income_all)
+    values (#{avgIncomeYesday,jdbcType=DECIMAL}, #{adIncomeYesday,jdbcType=DECIMAL}, 
+      #{adIncomeAll,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" keyColumn="dividend_income_id" keyProperty="dividendIncomeId" parameterType="com.koi.po.DividendIncome" useGeneratedKeys="true">
+    insert into dividend_income
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="avgIncomeYesday != null">
+        avg_income_yesday,
+      </if>
+      <if test="adIncomeYesday != null">
+        ad_income_yesday,
+      </if>
+      <if test="adIncomeAll != null">
+        ad_income_all,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="avgIncomeYesday != null">
+        #{avgIncomeYesday,jdbcType=DECIMAL},
+      </if>
+      <if test="adIncomeYesday != null">
+        #{adIncomeYesday,jdbcType=DECIMAL},
+      </if>
+      <if test="adIncomeAll != null">
+        #{adIncomeAll,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.DividendIncome">
+    update dividend_income
+    <set>
+      <if test="avgIncomeYesday != null">
+        avg_income_yesday = #{avgIncomeYesday,jdbcType=DECIMAL},
+      </if>
+      <if test="adIncomeYesday != null">
+        ad_income_yesday = #{adIncomeYesday,jdbcType=DECIMAL},
+      </if>
+      <if test="adIncomeAll != null">
+        ad_income_all = #{adIncomeAll,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where dividend_income_id = #{dividendIncomeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.DividendIncome">
+    update dividend_income
+    set avg_income_yesday = #{avgIncomeYesday,jdbcType=DECIMAL},
+      ad_income_yesday = #{adIncomeYesday,jdbcType=DECIMAL},
+      ad_income_all = #{adIncomeAll,jdbcType=DECIMAL}
+    where dividend_income_id = #{dividendIncomeId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.IncomeStageDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.IncomeStage">
+    <id column="income_stage_id" jdbcType="INTEGER" property="incomeStageId" />
+    <result column="income_stage_name" jdbcType="VARCHAR" property="incomeStageName" />
+    <result column="income_stage_num" jdbcType="INTEGER" property="incomeStageNum" />
+    <result column="income_stage_money" jdbcType="DECIMAL" property="incomeStageMoney" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    income_stage_id, income_stage_name, income_stage_num, income_stage_money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from income_stage
+    where income_stage_id = #{incomeStageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from income_stage
+    where income_stage_id = #{incomeStageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="income_stage_id" keyProperty="incomeStageId" parameterType="com.koi.po.IncomeStage" useGeneratedKeys="true">
+    insert into income_stage (income_stage_name, income_stage_num, 
+      income_stage_money)
+    values (#{incomeStageName,jdbcType=VARCHAR}, #{incomeStageNum,jdbcType=INTEGER}, 
+      #{incomeStageMoney,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" keyColumn="income_stage_id" keyProperty="incomeStageId" parameterType="com.koi.po.IncomeStage" useGeneratedKeys="true">
+    insert into income_stage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="incomeStageName != null">
+        income_stage_name,
+      </if>
+      <if test="incomeStageNum != null">
+        income_stage_num,
+      </if>
+      <if test="incomeStageMoney != null">
+        income_stage_money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="incomeStageName != null">
+        #{incomeStageName,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeStageNum != null">
+        #{incomeStageNum,jdbcType=INTEGER},
+      </if>
+      <if test="incomeStageMoney != null">
+        #{incomeStageMoney,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.IncomeStage">
+    update income_stage
+    <set>
+      <if test="incomeStageName != null">
+        income_stage_name = #{incomeStageName,jdbcType=VARCHAR},
+      </if>
+      <if test="incomeStageNum != null">
+        income_stage_num = #{incomeStageNum,jdbcType=INTEGER},
+      </if>
+      <if test="incomeStageMoney != null">
+        income_stage_money = #{incomeStageMoney,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where income_stage_id = #{incomeStageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.IncomeStage">
+    update income_stage
+    set income_stage_name = #{incomeStageName,jdbcType=VARCHAR},
+      income_stage_num = #{incomeStageNum,jdbcType=INTEGER},
+      income_stage_money = #{incomeStageMoney,jdbcType=DECIMAL}
+    where income_stage_id = #{incomeStageId,jdbcType=INTEGER}
+  </update>
+   <!-- 通过用户ID查询收益阶段 -->
+  <select id="findIncomeStageById" resultMap="BaseResultMap">
+  	SELECT i.* FROM income_stage i,USER WHERE i.income_stage_id=user.income_stage_id AND user.user_id=#{userId}
+  </select>
+</mapper>

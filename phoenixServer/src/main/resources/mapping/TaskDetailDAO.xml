@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.TaskDetailDAO">
+  <resultMap id="BaseResultMap" type="com.koi.vo.TaskVo">
+    <id column="task_id" property="taskId" />
+    <result column="task_detail_id" property="taskDetailId" />
+    <result column="task_name" property="taskName" />
+    <result column="reward_state" property="rewardState" />
+    <result column="task_icon" property="taskIcon" />
+    <result column="reward_num" property="rewardNum" />
+    <result column="task_sort" property="taskSort" />
+    <result column="task_type" property="taskType" />
+    <result column="reward_type" property="rewardType" />
+    <result column="has_do" property="hasDo" />
+    <result column="task_total" property="taskTotal" />
+    <result column="progress_num" property="progressNum" />
+  </resultMap>
+ <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from task_detail
+    where task_detail_id = #{taskDetailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="task_detail_id" keyProperty="taskDetailId" parameterType="com.koi.po.TaskDetail" useGeneratedKeys="true">
+    insert into task_detail (user_id, task_id, has_do, 
+      progress_num)
+    values (#{userId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{hasDo,jdbcType=INTEGER}, 
+      #{progressNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="task_detail_id" keyProperty="taskDetailId" parameterType="com.koi.po.TaskDetail" useGeneratedKeys="true">
+    insert into task_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="hasDo != null">
+        has_do,
+      </if>
+      <if test="progressNum != null">
+        progress_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="hasDo != null">
+        #{hasDo,jdbcType=INTEGER},
+      </if>
+      <if test="progressNum != null">
+        #{progressNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.TaskDetail">
+    update task_detail 
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="hasDo != null">
+        has_do = #{hasDo,jdbcType=INTEGER},
+      </if>
+      <if test="progressNum != null">
+        progress_num = #{progressNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where task_detail_id = #{taskDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.TaskDetail">
+    update task_detail
+    set user_id = #{userId,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      has_do = #{hasDo,jdbcType=INTEGER},
+      progress_num = #{progressNum,jdbcType=INTEGER}
+    where task_detail_id = #{taskDetailId,jdbcType=INTEGER}
+  </update>
+   <!-- 更新每日任务明细信息（重置任务） -->
+  <update id="updateAllTaskDetail">
+     UPDATE task_detail SET has_do=0,progress_num=0 WHERE task_id IN (SELECT task_id  FROM task WHERE task_type=1)
+  </update>
+  <!-- 批量新增任务明细 -->
+  <insert id="insertByBatch" parameterType="java.util.List">
+ 	 insert into task_detail (user_id, task_id, has_do,progress_num) values 
+ 	<foreach collection="list" item="taskDetail" separator=",">
+ 		(#{taskDetail.userId,jdbcType=INTEGER}, #{taskDetail.taskId,jdbcType=INTEGER}, #{taskDetail.hasDo,jdbcType=INTEGER}, #{taskDetail.progressNum,jdbcType=INTEGER})
+ 	</foreach>
+  </insert>
+ <!--  通过用户Id查询当前用户任务 -->
+  <select id="findTaskDetail" resultMap="BaseResultMap">
+ 	 SELECT * FROM task_detail,task WHERE task_detail.task_id=task.task_id 
+ 	 <if test="userId !=null and userId > 0">
+ 		 AND task_detail.user_id=#{userId} 
+ 	 </if>
+ 	  <if test="taskId !=null and taskId > 0">
+ 		 AND task_detail.task_id=#{taskId} 
+ 	 </if>
+ 	  ORDER BY task_sort 
+  </select>
+ <!--  修改任务列表完成状态 -->
+  <update id="updateTaskDetailHasDo" parameterType="com.koi.po.TaskDetail">
+	  update task_detail set has_do = #{hasDo,jdbcType=INTEGER} 
+	  where user_id = #{userId,jdbcType=INTEGER} AND task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+</mapper>

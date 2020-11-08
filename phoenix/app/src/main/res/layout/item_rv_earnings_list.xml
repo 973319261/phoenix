@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:background="@drawable/bg_border_bottom"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tv_earnings_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text=""
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/colorBlack"/>
+    <TextView
+        android:id="@+id/tv_earnings_tudi"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text=""
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/colorBlack"/>
+    <TextView
+        android:id="@+id/tv_earnings_tusun"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text=""
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/colorBlack"/>
+    <TextView
+        android:id="@+id/tv_earnings_all"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text=""
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/colorPrimary"/>
+</LinearLayout>

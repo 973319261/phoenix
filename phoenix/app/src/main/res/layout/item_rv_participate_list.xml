@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_ripple"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@drawable/bg_border_bottom"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_issue_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:background="@color/colorPrimaryTintPlus"
+            android:text="20200608-1"
+            android:textSize="13dp"
+            android:textColor="@color/colorWhite"/>
+        <TextView
+            android:id="@+id/tv_prize_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="奖励"
+            android:textSize="16dp"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/tv_is_winning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="未中奖"
+            android:textSize="14dp"/>
+    </LinearLayout>
+</LinearLayout>

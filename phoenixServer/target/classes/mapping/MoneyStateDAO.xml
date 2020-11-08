@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.MoneyStateDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.MoneyState">
+    <id column="money_state_id" jdbcType="INTEGER" property="moneyStateId" />
+    <result column="money_state_name" jdbcType="VARCHAR" property="moneyStateName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    money_state_id, money_state_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from money_state
+    where money_state_id = #{moneyStateId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from money_state
+    where money_state_id = #{moneyStateId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="money_state_id" keyProperty="moneyStateId" parameterType="com.koi.po.MoneyState" useGeneratedKeys="true">
+    insert into money_state (money_state_name)
+    values (#{moneyStateName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="money_state_id" keyProperty="moneyStateId" parameterType="com.koi.po.MoneyState" useGeneratedKeys="true">
+    insert into money_state
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="moneyStateName != null">
+        money_state_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="moneyStateName != null">
+        #{moneyStateName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.MoneyState">
+    update money_state
+    <set>
+      <if test="moneyStateName != null">
+        money_state_name = #{moneyStateName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where money_state_id = #{moneyStateId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.MoneyState">
+    update money_state
+    set money_state_name = #{moneyStateName,jdbcType=VARCHAR}
+    where money_state_id = #{moneyStateId,jdbcType=INTEGER}
+  </update>
+</mapper>

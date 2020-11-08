@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.ProgressDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.Progress">
+    <id column="progress_id" jdbcType="INTEGER" property="progressId" />
+    <result column="tudi" jdbcType="DECIMAL" property="tudi" />
+    <result column="tushu" jdbcType="DECIMAL" property="tushu" />
+    <result column="other" jdbcType="DECIMAL" property="other" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    progress_id, tudi, tushu, other
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from progress
+    where progress_id = #{progressId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from progress
+    where progress_id = #{progressId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="progress_id" keyProperty="progressId" parameterType="com.koi.po.Progress" useGeneratedKeys="true">
+    insert into progress (tudi, tushu, other
+      )
+    values (#{tudi,jdbcType=DECIMAL}, #{tushu,jdbcType=DECIMAL}, #{other,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="progress_id" keyProperty="progressId" parameterType="com.koi.po.Progress" useGeneratedKeys="true">
+    insert into progress
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tudi != null">
+        tudi,
+      </if>
+      <if test="tushu != null">
+        tushu,
+      </if>
+      <if test="other != null">
+        other,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tudi != null">
+        #{tudi,jdbcType=DECIMAL},
+      </if>
+      <if test="tushu != null">
+        #{tushu,jdbcType=DECIMAL},
+      </if>
+      <if test="other != null">
+        #{other,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.Progress">
+    update progress
+    <set>
+      <if test="tudi != null">
+        tudi = #{tudi,jdbcType=DECIMAL},
+      </if>
+      <if test="tushu != null">
+        tushu = #{tushu,jdbcType=DECIMAL},
+      </if>
+      <if test="other != null">
+        other = #{other,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where progress_id = #{progressId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.Progress">
+    update progress
+    set tudi = #{tudi,jdbcType=DECIMAL},
+      tushu = #{tushu,jdbcType=DECIMAL},
+      other = #{other,jdbcType=DECIMAL}
+    where progress_id = #{progressId,jdbcType=INTEGER}
+  </update>
+    <!-- 通过用户ID查询分红进度 -->
+  <select id="findProgressById" resultMap="BaseResultMap">
+  	SELECT p.* FROM progress p,USER WHERE p.progress_id=user.progress_id AND user.user_id=#{userId}
+  </select>
+</mapper>

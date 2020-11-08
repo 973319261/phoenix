@@ -1,0 +1,57 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "DialogAnim",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 2.0166666666666666,
+  "sample": 60,
+  "speed": 2,
+  "wrapMode": 0,
+  "curveData": {
+    "props": {
+      "scale": [
+        {
+          "frame": 0.5,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1.05,
+            "y": 1.05
+          }
+        },
+        {
+          "frame": 0.5166666666666667,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1.025,
+            "y": 1.025
+          }
+        },
+        {
+          "frame": 1,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1,
+            "y": 1
+          }
+        },
+        {
+          "frame": 1.4833333333333334,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1.05,
+            "y": 1.05
+          }
+        },
+        {
+          "frame": 2.0166666666666666,
+          "value": {
+            "__type__": "cc.Vec2",
+            "x": 1,
+            "y": 1
+          }
+        }
+      ]
+    }
+  },
+  "events": []
+}

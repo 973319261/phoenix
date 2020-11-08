@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioButton
+    android:id="@+id/rb_withdraw_setting_money"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:gravity="center"
+    android:button="@null"
+    android:background="@drawable/selector_btn_background"
+    android:textColor="@drawable/selector_btn_textcolor"
+    android:textSize="14dp"
+    android:text="">
+</RadioButton>

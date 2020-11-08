@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.IncomeRecordDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.IncomeRecord">
+    <id column="income_record_id" jdbcType="INTEGER" property="incomeRecordId" />
+    <result column="income_tudi" jdbcType="DECIMAL" property="incomeTudi" />
+    <result column="income_tusun" jdbcType="DECIMAL" property="incomeTusun" />
+    <result column="income_day" jdbcType="DATE" property="incomeDay" />
+     <result column="income_all" jdbcType="DECIMAL" property="incomeAll" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from income_record
+    where income_record_id = #{incomeRecordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="income_record_id" keyProperty="incomeRecordId" parameterType="com.koi.po.IncomeRecord" useGeneratedKeys="true">
+    insert into income_record (income_tudi, income_tusun, income_day
+      )
+    values (#{incomeTudi,jdbcType=DECIMAL}, #{incomeTusun,jdbcType=DECIMAL}, #{incomeDay,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="income_record_id" keyProperty="incomeRecordId" parameterType="com.koi.po.IncomeRecord" useGeneratedKeys="true">
+    insert into income_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="incomeTudi != null">
+        income_tudi,
+      </if>
+      <if test="incomeTusun != null">
+        income_tusun,
+      </if>
+      <if test="incomeDay != null">
+        income_day,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="incomeTudi != null">
+        #{incomeTudi,jdbcType=DECIMAL},
+      </if>
+      <if test="incomeTusun != null">
+        #{incomeTusun,jdbcType=DECIMAL},
+      </if>
+      <if test="incomeDay != null">
+        #{incomeDay,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.IncomeRecord">
+    update income_record
+    <set>
+      <if test="incomeTudi != null">
+        income_tudi = #{incomeTudi,jdbcType=DECIMAL},
+      </if>
+      <if test="incomeTusun != null">
+        income_tusun = #{incomeTusun,jdbcType=DECIMAL},
+      </if>
+      <if test="incomeDay != null">
+        income_day = #{incomeDay,jdbcType=DATE},
+      </if>
+    </set>
+    where income_record_id = #{incomeRecordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.IncomeRecord">
+    update income_record
+    set income_tudi = #{incomeTudi,jdbcType=DECIMAL},
+      income_tusun = #{incomeTusun,jdbcType=DECIMAL},
+      income_day = #{incomeDay,jdbcType=DATE}
+    where income_record_id = #{incomeRecordId,jdbcType=INTEGER}
+  </update>
+  <select id="findInComeRecordByDay" resultMap="BaseResultMap">
+  	SELECT SUM(i.income_tudi) income_tudi,SUM(i.income_tusun) income_tusun, 
+  	SUM(i.income_tudi + i.income_tusun)income_all FROM 
+  	income_record i,income_detail WHERE i.income_record_id=income_detail.income_record_id 
+  	<if test="userId != null and userId >0 ">
+  		AND income_detail.user_id=#{userId} 
+  	</if>
+  	<if test="day != null and day !='' ">
+  		AND i.income_day=#{day} 
+  	</if>
+  </select>
+   <!-- 查询收益记录条数(年日) -->
+  <select id="findIncomeRecordCountByDate" resultType="int">
+  	 SELECT COUNT(i.income_record_id) FROM income_record i,income_detail WHERE i.income_record_id=income_detail.income_record_id 
+  	<if test="userId != null and userId >0 ">
+  		AND income_detail.user_id=#{userId} 
+  	</if>
+  	<if test="date != null and date !='' ">
+  	 	AND i.income_day LIKE CONCAT('%',CONCAT(#{date},'%'))
+  	</if>
+  </select>
+  <!-- 查询收益记录(年日) -->
+  <select id="findIncomeRecordByDate" resultMap="BaseResultMap">
+  	 SELECT i.income_tudi,i.income_tusun,(i.income_tudi + i.income_tusun) income_all,i.income_day FROM income_record i,income_detail WHERE i.income_record_id=income_detail.income_record_id 
+  	<if test="userId != null and userId >0 ">
+  		AND income_detail.user_id=#{userId} 
+  	</if>
+  	<if test="date != null and date !='' ">
+  	 	AND i.income_day LIKE CONCAT('%',CONCAT(#{date},'%')) 
+  	</if>
+  	ORDER BY i.income_day DESC LIMIT #{startIndex},#{pageSize}
+  </select>
+</mapper>

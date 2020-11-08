@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.PetInfoDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.PetInfo">
+    <id column="pet_info_id" jdbcType="INTEGER" property="petInfoId" />
+    <result column="pet_name" jdbcType="VARCHAR" property="petName" />
+    <result column="pet_level" jdbcType="INTEGER" property="petLevel" />
+    <result column="pet_img" jdbcType="INTEGER" property="petImg" />
+    <result column="pet_gold" jdbcType="VARCHAR" property="petGold" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pet_info_id, pet_name, pet_level, pet_img, pet_gold
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pet_info
+    where pet_info_id = #{petInfoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pet_info
+    where pet_info_id = #{petInfoId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="pet_info_id" keyProperty="petInfoId" parameterType="com.koi.po.PetInfo" useGeneratedKeys="true">
+    insert into pet_info (pet_name, pet_level, pet_img, 
+      pet_gold)
+    values (#{petName,jdbcType=VARCHAR}, #{petLevel,jdbcType=INTEGER}, #{petImg,jdbcType=INTEGER}, 
+      #{petGold,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="pet_info_id" keyProperty="petInfoId" parameterType="com.koi.po.PetInfo" useGeneratedKeys="true">
+    insert into pet_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="petName != null">
+        pet_name,
+      </if>
+      <if test="petLevel != null">
+        pet_level,
+      </if>
+      <if test="petImg != null">
+        pet_img,
+      </if>
+      <if test="petGold != null">
+        pet_gold,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="petName != null">
+        #{petName,jdbcType=VARCHAR},
+      </if>
+      <if test="petLevel != null">
+        #{petLevel,jdbcType=INTEGER},
+      </if>
+      <if test="petImg != null">
+        #{petImg,jdbcType=INTEGER},
+      </if>
+      <if test="petGold != null">
+        #{petGold,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.PetInfo">
+    update pet_info
+    <set>
+      <if test="petName != null">
+        pet_name = #{petName,jdbcType=VARCHAR},
+      </if>
+      <if test="petLevel != null">
+        pet_level = #{petLevel,jdbcType=INTEGER},
+      </if>
+      <if test="petImg != null">
+        pet_img = #{petImg,jdbcType=INTEGER},
+      </if>
+      <if test="petGold != null">
+        pet_gold = #{petGold,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pet_info_id = #{petInfoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.PetInfo">
+    update pet_info
+    set pet_name = #{petName,jdbcType=VARCHAR},
+      pet_level = #{petLevel,jdbcType=INTEGER},
+      pet_img = #{petImg,jdbcType=INTEGER},
+      pet_gold = #{petGold,jdbcType=VARCHAR}
+    where pet_info_id = #{petInfoId,jdbcType=INTEGER}
+  </update>
+   <!-- 查询所有宠物信息列表 -->
+  <select id="findAll" resultMap="BaseResultMap">
+ 	 SELECT * FROM pet_info
+  </select>
+</mapper>

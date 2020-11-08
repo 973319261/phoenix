@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.MoneyRecordDAO">
+  <resultMap id="BaseResultMap" type="com.koi.vo.MoneyRecordVo">
+    <id column="money_record_id" jdbcType="INTEGER" property="moneyRecordId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="money_soure_id" jdbcType="INTEGER" property="moneySoureId" />
+    <result column="money_state_id" jdbcType="INTEGER" property="moneyStateId" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="money_type" jdbcType="INTEGER" property="moneyType" />
+    <result column="money_soure_name" jdbcType="VARCHAR" property="moneySoureName" />
+    <result column="money_state_name" jdbcType="VARCHAR" property="moneyStateName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from money_record
+    where money_record_id = #{moneyRecordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="money_record_id" keyProperty="moneyRecordId" parameterType="com.koi.po.MoneyRecord" useGeneratedKeys="true">
+    insert into money_record (user_id, money_soure_id, money_state_id, 
+      money, create_time, money_type
+      )
+    values (#{userId,jdbcType=INTEGER}, #{moneySoureId,jdbcType=INTEGER}, #{moneyStateId,jdbcType=INTEGER}, 
+      #{money,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{moneyType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="money_record_id" keyProperty="moneyRecordId" parameterType="com.koi.po.MoneyRecord" useGeneratedKeys="true">
+    insert into money_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="moneySoureId != null">
+        money_soure_id,
+      </if>
+      <if test="moneyStateId != null">
+        money_state_id,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="moneyType != null">
+        money_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="moneySoureId != null">
+        #{moneySoureId,jdbcType=INTEGER},
+      </if>
+      <if test="moneyStateId != null">
+        #{moneyStateId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="moneyType != null">
+        #{moneyType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.MoneyRecord">
+    update money_record
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="moneySoureId != null">
+        money_soure_id = #{moneySoureId,jdbcType=INTEGER},
+      </if>
+      <if test="moneyStateId != null">
+        money_state_id = #{moneyStateId,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="moneyType != null">
+        money_type = #{moneyType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where money_record_id = #{moneyRecordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.MoneyRecord">
+    update money_record
+    set user_id = #{userId,jdbcType=INTEGER},
+      money_soure_id = #{moneySoureId,jdbcType=INTEGER},
+      money_state_id = #{moneyStateId,jdbcType=INTEGER},
+      money = #{money,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      money_type = #{moneyType,jdbcType=INTEGER}
+    where money_record_id = #{moneyRecordId,jdbcType=INTEGER}
+  </update>
+   <!--  通过用户ID查询该用户余额总数 -->
+  <select id="findBalance" resultType="java.math.BigDecimal">
+     SELECT SUM(money) from money_record where user_id = #{userId,jdbcType=INTEGER} 
+  </select>
+  <!-- 查询零钱记录总数 -->
+  <select id="findMoneyRecordCount" resultType="int">
+  	SELECT COUNT(money_record_id) FROM money_record m,money_soure,money_state 
+  	WHERE m.money_soure_id=money_soure.money_soure_id 
+  	AND m.money_state_id=money_state.money_state_id 
+  	AND user_id=#{userId}
+  </select>
+  <!-- 查询零钱记录 -->
+  <select id="findMoneyRecord" resultMap="BaseResultMap">
+  	SELECT * FROM money_record m,money_soure,money_state 
+  	WHERE m.money_soure_id=money_soure.money_soure_id 
+  	AND m.money_state_id=money_state.money_state_id 
+  	AND user_id=#{userId} ORDER BY m.create_time DESC LIMIT #{startIndex},#{pageSize}
+  </select>
+</mapper>

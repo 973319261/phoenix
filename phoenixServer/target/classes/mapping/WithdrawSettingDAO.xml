@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.WithdrawSettingDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.WithdrawSetting">
+    <id column="withdraw_setting_id" jdbcType="INTEGER" property="withdrawSettingId" />
+    <result column="withdraw_money" jdbcType="DECIMAL" property="withdrawMoney" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    withdraw_setting_id, withdraw_money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from withdraw_setting
+    where withdraw_setting_id = #{withdrawSettingId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from withdraw_setting
+    where withdraw_setting_id = #{withdrawSettingId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="withdraw_setting_id" keyProperty="withdrawSettingId" parameterType="com.koi.po.WithdrawSetting" useGeneratedKeys="true">
+    insert into withdraw_setting (withdraw_money)
+    values (#{withdrawMoney,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" keyColumn="withdraw_setting_id" keyProperty="withdrawSettingId" parameterType="com.koi.po.WithdrawSetting" useGeneratedKeys="true">
+    insert into withdraw_setting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="withdrawMoney != null">
+        withdraw_money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="withdrawMoney != null">
+        #{withdrawMoney,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.WithdrawSetting">
+    update withdraw_setting
+    <set>
+      <if test="withdrawMoney != null">
+        withdraw_money = #{withdrawMoney,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where withdraw_setting_id = #{withdrawSettingId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.WithdrawSetting">
+    update withdraw_setting
+    set withdraw_money = #{withdrawMoney,jdbcType=DECIMAL}
+    where withdraw_setting_id = #{withdrawSettingId,jdbcType=INTEGER}
+  </update>
+    <!-- 查询所有钱包设置列表 -->
+  <select id="findAll" resultMap="BaseResultMap">
+ 	 SELECT * FROM withdraw_setting
+  </select>
+</mapper>

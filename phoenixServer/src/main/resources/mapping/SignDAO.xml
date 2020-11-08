@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.SignDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.Sign">
+    <id column="sign_id" jdbcType="INTEGER" property="signId" />
+    <result column="sign_day" jdbcType="DATE" property="signDay" />
+    <result column="reward_num" jdbcType="INTEGER" property="rewardNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sign_id, sign_day, reward_num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sign
+    where sign_id = #{signId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sign
+    where sign_id = #{signId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="sign_id" keyProperty="signId" parameterType="com.koi.po.Sign" useGeneratedKeys="true">
+    insert into sign (sign_day, reward_num)
+    values (#{signDay,jdbcType=DATE}, #{rewardNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="sign_id" keyProperty="signId" parameterType="com.koi.po.Sign" useGeneratedKeys="true">
+    insert into sign
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="signDay != null">
+        sign_day,
+      </if>
+      <if test="rewardNum != null">
+        reward_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="signDay != null">
+        #{signDay,jdbcType=DATE},
+      </if>
+      <if test="rewardNum != null">
+        #{rewardNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.Sign">
+    update sign
+    <set>
+      <if test="signDay != null">
+        sign_day = #{signDay,jdbcType=DATE},
+      </if>
+      <if test="rewardNum != null">
+        reward_num = #{rewardNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where sign_id = #{signId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.Sign">
+    update sign
+    set sign_day = #{signDay,jdbcType=DATE},
+      reward_num = #{rewardNum,jdbcType=INTEGER}
+    where sign_id = #{signId,jdbcType=INTEGER}
+  </update>
+    <!-- 查询所有宠物信息列表 -->
+  <select id="findAll" resultMap="BaseResultMap">
+ 	 SELECT * FROM sign
+  </select>
+  <!-- 更新所有签到列表 (高效)-->
+  <update id="updateAllSign" parameterType="java.util.List">
+    update sign 
+    SET sign_day =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case sign_id" close="end">
+        when #{item.signId} then #{item.signDay} 
+    </foreach>
+    , reward_num =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case sign_id" close="end">
+        when #{item.signId} then #{item.rewardNum} 
+    </foreach>
+    where sign_id in (
+    <foreach collection="list" item="item" index="index"
+             separator=",">
+        #{item.signId} 
+    </foreach>
+    )
+</update>
+</mapper>

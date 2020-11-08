@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">phoenix</string>
+    <string name="text_home">首页</string>
+    <string name="text_earnings">收益</string>
+    <string name="text_work">工作</string>
+    <string name="text_user">我的</string>
+    <!--关于软件  项目介绍-->
+    <string name="about_brief_title">项目介绍</string>
+    <string name="about_brief_context">
+        \t\t\t该项目是一款经济繁荣共享的休闲类游戏，玩家在游戏中会给开发者产生经济收益，而这些收益将通过游戏，以分红的方式返还给玩家。游戏本身没有任何的充值功能，
+        玩不玩都是由玩家自己决定的，所以也不存在骗局，并且玩家收到的分红都是公开公正且透明的。恐龙有钱是居家兼职的最好途径，也是学生族的福音。每天5分钟，轻松领分红！
+    </string>
+    <!--关于软件  DHC-->
+    <string name="about_DHC_title">关于DHC</string>
+    <string name="about_DHC_context">
+        \t\t\tDHC又称游戏兑换币，是基于个人在游戏中产生的贡献奖励，后续可用于游戏生态应用上的消费与兑换等。DHC总量有限，且每两年产出量减半，随着时间的推移获取难度越来越大，
+        前期参与有更多优势。48小时不领取DHC将暂停生长。
+    </string>
+    <!--关于软件  算力-->
+    <string name="about_hashrate_title">关于算力</string>
+    <string name="about_hashrate_context">
+        \t\t\t算力是指用户获取DHC的影响因子，算力越高，获得的DHC越多。DHC产量每天固定，每两年产量减半。按照用户当前的算力值占总活跃用户算力值比例进行分配。假设每日发放的DHC为N，
+        用户每日采集到的DHC总数=N×该用户当前算力值/所有活跃用户算力值之和。
+    </string>
+</resources>

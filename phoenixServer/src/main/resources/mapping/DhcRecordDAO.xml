@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.DhcRecordDAO">
+  <resultMap id="BaseResultMap" type="com.koi.vo.DhcRecordVo">
+    <id column="dhc_record_id" jdbcType="INTEGER" property="dhcRecordId" />
+    <result column="source_type_id" jdbcType="INTEGER" property="sourceTypeId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="dhc_num" jdbcType="DECIMAL" property="dhcNum" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="source_type_name" jdbcType="VARCHAR" property="sourceTypeName" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dhc_record
+    where dhc_record_id = #{dhcRecordId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="dhc_record_id" keyProperty="dhcRecordId" parameterType="com.koi.po.DhcRecord" useGeneratedKeys="true">
+    insert into dhc_record (source_type_id, user_id, dhc_num, 
+      create_time)
+    values (#{sourceTypeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{dhcNum,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="dhc_record_id" keyProperty="dhcRecordId" parameterType="com.koi.po.DhcRecord" useGeneratedKeys="true">
+    insert into dhc_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sourceTypeId != null">
+        source_type_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="dhcNum != null">
+        dhc_num,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sourceTypeId != null">
+        #{sourceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="dhcNum != null">
+        #{dhcNum,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.DhcRecord">
+    update dhc_record
+    <set>
+      <if test="sourceTypeId != null">
+        source_type_id = #{sourceTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="dhcNum != null">
+        dhc_num = #{dhcNum,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where dhc_record_id = #{dhcRecordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.DhcRecord">
+    update dhc_record
+    set source_type_id = #{sourceTypeId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      dhc_num = #{dhcNum,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where dhc_record_id = #{dhcRecordId,jdbcType=INTEGER}
+  </update>
+   <!--  通过用户ID查询该用户算力总数 -->
+  <select id="findDhcNum" resultType="java.math.BigDecimal">
+     SELECT SUM(dhc_num) from dhc_record where user_id = #{userId,jdbcType=INTEGER} 
+  </select>
+   <!-- 查询hdc记录总数 -->
+  <select id="findDhcRecordCount" resultType="int">
+ 	SELECT COUNT(d.dhc_record_id) FROM dhc_record d,soure_type 
+  	WHERE d.source_type_id=soure_type.source_type_id 
+  	AND user_id=#{userId}
+  </select>
+  <!-- 查询hdc记录 -->
+  <select id="findDhcRecord" resultMap="BaseResultMap">
+  	SELECT * FROM dhc_record d,soure_type 
+  	WHERE d.source_type_id=soure_type.source_type_id 
+  	AND user_id=#{userId} ORDER BY d.create_time DESC LIMIT #{startIndex},#{pageSize}
+  </select>
+</mapper>

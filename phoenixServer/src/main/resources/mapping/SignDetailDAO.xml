@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.SignDetailDAO">
+  <resultMap id="BaseResultMap" type="com.koi.vo.SignVo">
+    <id column="sign_id" property="signId" />
+    <result column="sign_day" property="signDay" />
+    <result column="user_id" property="userId" />
+    <result column="reward_num" property="rewardNum" />
+    <result column="is_sign" property="isSign" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sign_detail
+    where sign_detail_id = #{signDetailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="sign_detail_id" keyProperty="signDetailId" parameterType="com.koi.po.SignDetail" useGeneratedKeys="true">
+    insert into sign_detail (user_id, sign_id, is_sign
+      )
+    values (#{userId,jdbcType=INTEGER}, #{signId,jdbcType=INTEGER}, #{isSign,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="sign_detail_id" keyProperty="signDetailId" parameterType="com.koi.po.SignDetail" useGeneratedKeys="true">
+    insert into sign_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="signId != null">
+        sign_id,
+      </if>
+      <if test="isSign != null">
+        is_sign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="signId != null">
+        #{signId,jdbcType=INTEGER},
+      </if>
+      <if test="isSign != null">
+        #{isSign,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.SignDetail">
+    update sign_detail
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="signId != null">
+        sign_id = #{signId,jdbcType=INTEGER},
+      </if>
+      <if test="isSign != null">
+        is_sign = #{isSign,jdbcType=INTEGER},
+      </if>
+    </set>
+    where sign_detail_id = #{signDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.SignDetail">
+    update sign_detail
+    set user_id = #{userId,jdbcType=INTEGER},
+      sign_id = #{signId,jdbcType=INTEGER},
+      is_sign = #{isSign,jdbcType=INTEGER}
+    where sign_detail_id = #{signDetailId,jdbcType=INTEGER}
+  </update>
+    <!-- 更新所有签到明细信息（重置签到列表） -->
+  <update id="updateAllSignDetail">
+     UPDATE sign_detail SET is_sign=0
+  </update>
+    <!-- 批量新增宠物信息明细 -->
+  <insert id="insertByBatch" parameterType="java.util.List">
+ 	insert into sign_detail (user_id, sign_id, is_sign) values 
+ 	<foreach collection="list" item="signDetail" separator=",">
+ 		(#{signDetail.userId,jdbcType=INTEGER}, #{signDetail.signId,jdbcType=INTEGER}, 
+ 		#{signDetail.isSign,jdbcType=INTEGER})
+ 	</foreach>
+  </insert>
+  <select id="findSignByUserId" resultMap="BaseResultMap">
+     SELECT * FROM sign_detail s,SIGN WHERE s.sign_id=sign.sign_id AND s.user_id=#{userId} ORDER BY sign_day
+  </select>
+   <!--  修改签到列表完成状态（单个） -->
+  <update id="updateSignDetail" parameterType="com.koi.vo.SignVo">
+	  update sign_detail set is_sign = #{isSign,jdbcType=INTEGER} 
+	  where user_id = #{userId,jdbcType=INTEGER} AND sign_id = #{signId,jdbcType=INTEGER}
+  </update>
+</mapper>

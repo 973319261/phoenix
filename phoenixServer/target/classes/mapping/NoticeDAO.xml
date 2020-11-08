@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.NoticeDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.Notice">
+    <id column="notice_id" jdbcType="INTEGER" property="noticeId" />
+    <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="notice_img" jdbcType="VARCHAR" property="noticeImg" />
+    <result column="publisher" jdbcType="VARCHAR" property="publisher" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_new" jdbcType="INTEGER" property="isNew" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    notice_id, notice_title, notice_content, notice_img, publisher, create_time, is_new
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from notice
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from notice
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="notice_id" keyProperty="noticeId" parameterType="com.koi.po.Notice" useGeneratedKeys="true">
+    insert into notice (notice_title, notice_content, notice_img, 
+      publisher, create_time, is_new
+      )
+    values (#{noticeTitle,jdbcType=VARCHAR}, #{noticeContent,jdbcType=VARCHAR}, #{noticeImg,jdbcType=VARCHAR}, 
+      #{publisher,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{isNew,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="notice_id" keyProperty="noticeId" parameterType="com.koi.po.Notice" useGeneratedKeys="true">
+    insert into notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeTitle != null">
+        notice_title,
+      </if>
+      <if test="noticeContent != null">
+        notice_content,
+      </if>
+      <if test="noticeImg != null">
+        notice_img,
+      </if>
+      <if test="publisher != null">
+        publisher,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isNew != null">
+        is_new,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeTitle != null">
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeImg != null">
+        #{noticeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null">
+        #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isNew != null">
+        #{isNew,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.Notice">
+    update notice
+    <set>
+      <if test="noticeTitle != null">
+        notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        notice_content = #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeImg != null">
+        notice_img = #{noticeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null">
+        publisher = #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isNew != null">
+        is_new = #{isNew,jdbcType=INTEGER},
+      </if>
+    </set>
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.Notice">
+    update notice
+    set notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      notice_content = #{noticeContent,jdbcType=VARCHAR},
+      notice_img = #{noticeImg,jdbcType=VARCHAR},
+      publisher = #{publisher,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_new = #{isNew,jdbcType=INTEGER}
+    where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+</mapper>

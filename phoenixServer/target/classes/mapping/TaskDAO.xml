@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.TaskDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.Task">
+    <id column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="reward_state" jdbcType="VARCHAR" property="rewardState" />
+    <result column="task_icon" jdbcType="VARCHAR" property="taskIcon" />
+    <result column="reward_num" jdbcType="INTEGER" property="rewardNum" />
+    <result column="task_sort" jdbcType="INTEGER" property="taskSort" />
+    <result column="task_type" jdbcType="INTEGER" property="taskType" />
+    <result column="reward_type" jdbcType="INTEGER" property="rewardType" />
+    <result column="task_total" jdbcType="INTEGER" property="taskTotal" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    task_id, task_name, reward_state, task_icon, reward_num, task_sort, task_type, reward_type, 
+    task_total
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="task_id" keyProperty="taskId" parameterType="com.koi.po.Task" useGeneratedKeys="true">
+    insert into task (task_name, reward_state, task_icon, 
+      reward_num, task_sort, task_type, 
+      reward_type, task_total)
+    values (#{taskName,jdbcType=VARCHAR}, #{rewardState,jdbcType=VARCHAR}, #{taskIcon,jdbcType=VARCHAR}, 
+      #{rewardNum,jdbcType=INTEGER}, #{taskSort,jdbcType=INTEGER}, #{taskType,jdbcType=INTEGER}, 
+      #{rewardType,jdbcType=INTEGER}, #{taskTotal,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="task_id" keyProperty="taskId" parameterType="com.koi.po.Task" useGeneratedKeys="true">
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskName != null">
+        task_name,
+      </if>
+      <if test="rewardState != null">
+        reward_state,
+      </if>
+      <if test="taskIcon != null">
+        task_icon,
+      </if>
+      <if test="rewardNum != null">
+        reward_num,
+      </if>
+      <if test="taskSort != null">
+        task_sort,
+      </if>
+      <if test="taskType != null">
+        task_type,
+      </if>
+      <if test="rewardType != null">
+        reward_type,
+      </if>
+      <if test="taskTotal != null">
+        task_total,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskName != null">
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardState != null">
+        #{rewardState,jdbcType=VARCHAR},
+      </if>
+      <if test="taskIcon != null">
+        #{taskIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardNum != null">
+        #{rewardNum,jdbcType=INTEGER},
+      </if>
+      <if test="taskSort != null">
+        #{taskSort,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null">
+        #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="rewardType != null">
+        #{rewardType,jdbcType=INTEGER},
+      </if>
+      <if test="taskTotal != null">
+        #{taskTotal,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.Task">
+    update task
+    <set>
+      <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardState != null">
+        reward_state = #{rewardState,jdbcType=VARCHAR},
+      </if>
+      <if test="taskIcon != null">
+        task_icon = #{taskIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="rewardNum != null">
+        reward_num = #{rewardNum,jdbcType=INTEGER},
+      </if>
+      <if test="taskSort != null">
+        task_sort = #{taskSort,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null">
+        task_type = #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="rewardType != null">
+        reward_type = #{rewardType,jdbcType=INTEGER},
+      </if>
+      <if test="taskTotal != null">
+        task_total = #{taskTotal,jdbcType=INTEGER},
+      </if>
+    </set>
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.Task">
+    update task
+    set task_name = #{taskName,jdbcType=VARCHAR},
+      reward_state = #{rewardState,jdbcType=VARCHAR},
+      task_icon = #{taskIcon,jdbcType=VARCHAR},
+      reward_num = #{rewardNum,jdbcType=INTEGER},
+      task_sort = #{taskSort,jdbcType=INTEGER},
+      task_type = #{taskType,jdbcType=INTEGER},
+      reward_type = #{rewardType,jdbcType=INTEGER},
+      task_total = #{taskTotal,jdbcType=INTEGER}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <!-- 查询所有任务列表 -->
+  <select id="findAll" resultMap="BaseResultMap">
+ 	 SELECT * FROM task
+  </select>
+</mapper>

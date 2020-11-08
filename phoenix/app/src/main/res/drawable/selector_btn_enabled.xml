@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--禁止按钮背景颜色改变-->
+    <item android:drawable="@drawable/btn_border_radius_fill_forbid" android:state_enabled="false"/>
+    <!--正常情况下显示效果-->
+    <item android:drawable="@drawable/btn_border_radius_fill"/>
+</selector>

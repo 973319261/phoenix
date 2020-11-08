@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koi.mapper.IssueDAO">
+  <resultMap id="BaseResultMap" type="com.koi.po.Issue">
+    <id column="issue_id" jdbcType="INTEGER" property="issueId" />
+    <result column="issue_state_id" jdbcType="INTEGER" property="issueStateId" />
+    <result column="issue_name" jdbcType="VARCHAR" property="issueName" />
+    <result column="prize_name" jdbcType="VARCHAR" property="prizeName" />
+    <result column="prize_money" jdbcType="DECIMAL" property="prizeMoney" />
+    <result column="prize_img" jdbcType="VARCHAR" property="prizeImg" />
+    <result column="yet_bet_num" jdbcType="INTEGER" property="yetBetNum" />
+    <result column="all_bet_num" jdbcType="INTEGER" property="allBetNum" />
+    <result column="block_number" jdbcType="BIGINT" property="blockNumber" />
+    <result column="luck_number" jdbcType="INTEGER" property="luckNumber" />
+    <result column="abort_time" jdbcType="TIMESTAMP" property="abortTime" />
+    <result column="lottery_time" jdbcType="TIMESTAMP" property="lotteryTime" />
+  </resultMap>
+  <resultMap id="BaseResultVoMap" type="com.koi.vo.IssueVo">
+    <id column="issue_id" jdbcType="INTEGER" property="issueId" />
+    <result column="issue_state_id" jdbcType="INTEGER" property="issueStateId" />
+    <result column="issue_name" jdbcType="VARCHAR" property="issueName" />
+    <result column="prize_name" jdbcType="VARCHAR" property="prizeName" />
+    <result column="prize_money" jdbcType="DECIMAL" property="prizeMoney" />
+    <result column="prize_img" jdbcType="VARCHAR" property="prizeImg" />
+    <result column="yet_bet_num" jdbcType="INTEGER" property="yetBetNum" />
+    <result column="all_bet_num" jdbcType="INTEGER" property="allBetNum" />
+    <result column="block_number" jdbcType="BIGINT" property="blockNumber" />
+    <result column="luck_number" jdbcType="INTEGER" property="luckNumber" />
+    <result column="abort_time" jdbcType="TIMESTAMP" property="abortTime" />
+    <result column="lottery_time" jdbcType="TIMESTAMP" property="lotteryTime" />
+    <result column="issue_state_name" jdbcType="VARCHAR" property="issueStateName" />
+    <result column="is_winning" jdbcType="INTEGER" property="isWinning" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+  	SELECT * FROM issue WHERE issue_id=#{issueId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from issue
+    where issue_id = #{issueId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="issue_id" keyProperty="issueId" parameterType="com.koi.po.Issue" useGeneratedKeys="true">
+    insert into issue (issue_state_id, issue_name, prize_name, 
+      prize_money, prize_img, yet_bet_num, 
+      all_bet_num, block_number, luck_number, 
+      abort_time, lottery_time)
+    values (#{issueStateId,jdbcType=INTEGER}, #{issueName,jdbcType=VARCHAR}, #{prizeName,jdbcType=VARCHAR}, 
+      #{prizeMoney,jdbcType=DECIMAL}, #{prizeImg,jdbcType=VARCHAR}, #{yetBetNum,jdbcType=INTEGER}, 
+      #{allBetNum,jdbcType=INTEGER}, #{blockNumber,jdbcType=BIGINT}, #{luckNumber,jdbcType=INTEGER}, 
+      #{abortTime,jdbcType=TIMESTAMP}, #{lotteryTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="issue_id" keyProperty="issueId" parameterType="com.koi.po.Issue" useGeneratedKeys="true">
+    insert into issue
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="issueStateId != null">
+        issue_state_id,
+      </if>
+      <if test="issueName != null">
+        issue_name,
+      </if>
+      <if test="prizeName != null">
+        prize_name,
+      </if>
+      <if test="prizeMoney != null">
+        prize_money,
+      </if>
+      <if test="prizeImg != null">
+        prize_img,
+      </if>
+      <if test="yetBetNum != null">
+        yet_bet_num,
+      </if>
+      <if test="allBetNum != null">
+        all_bet_num,
+      </if>
+      <if test="blockNumber != null">
+        block_number,
+      </if>
+      <if test="luckNumber != null">
+        luck_number,
+      </if>
+      <if test="abortTime != null">
+        abort_time,
+      </if>
+      <if test="lotteryTime != null">
+        lottery_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="issueStateId != null">
+        #{issueStateId,jdbcType=INTEGER},
+      </if>
+      <if test="issueName != null">
+        #{issueName,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeName != null">
+        #{prizeName,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeMoney != null">
+        #{prizeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="prizeImg != null">
+        #{prizeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="yetBetNum != null">
+        #{yetBetNum,jdbcType=INTEGER},
+      </if>
+      <if test="allBetNum != null">
+        #{allBetNum,jdbcType=INTEGER},
+      </if>
+      <if test="blockNumber != null">
+        #{blockNumber,jdbcType=BIGINT},
+      </if>
+      <if test="luckNumber != null">
+        #{luckNumber,jdbcType=INTEGER},
+      </if>
+      <if test="abortTime != null">
+        #{abortTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lotteryTime != null">
+        #{lotteryTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.koi.po.Issue">
+    update issue
+    <set>
+      <if test="issueStateId != null">
+        issue_state_id = #{issueStateId,jdbcType=INTEGER},
+      </if>
+      <if test="issueName != null">
+        issue_name = #{issueName,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeName != null">
+        prize_name = #{prizeName,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeMoney != null">
+        prize_money = #{prizeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="prizeImg != null">
+        prize_img = #{prizeImg,jdbcType=VARCHAR},
+      </if>
+      <if test="yetBetNum != null">
+        yet_bet_num = #{yetBetNum,jdbcType=INTEGER},
+      </if>
+      <if test="allBetNum != null">
+        all_bet_num = #{allBetNum,jdbcType=INTEGER},
+      </if>
+      <if test="blockNumber != null">
+        block_number = #{blockNumber,jdbcType=BIGINT},
+      </if>
+      <if test="luckNumber != null">
+        luck_number = #{luckNumber,jdbcType=INTEGER},
+      </if>
+      <if test="abortTime != null">
+        abort_time = #{abortTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lotteryTime != null">
+        lottery_time = #{lotteryTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where issue_id = #{issueId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.koi.po.Issue">
+    update issue
+    set issue_state_id = #{issueStateId,jdbcType=INTEGER},
+      issue_name = #{issueName,jdbcType=VARCHAR},
+      prize_name = #{prizeName,jdbcType=VARCHAR},
+      prize_money = #{prizeMoney,jdbcType=DECIMAL},
+      prize_img = #{prizeImg,jdbcType=VARCHAR},
+      yet_bet_num = #{yetBetNum,jdbcType=INTEGER},
+      all_bet_num = #{allBetNum,jdbcType=INTEGER},
+      block_number = #{blockNumber,jdbcType=BIGINT},
+      luck_number = #{luckNumber,jdbcType=INTEGER},
+      abort_time = #{abortTime,jdbcType=TIMESTAMP},
+      lottery_time = #{lotteryTime,jdbcType=TIMESTAMP}
+    where issue_id = #{issueId,jdbcType=INTEGER}
+  </update>
+   <!-- 批量新增期号 (批量插入返回ID报错bug在mybatis.3.3.1才被修复)-->
+  <insert id="insertByBatch" parameterType="java.util.List" keyProperty="issueId" useGeneratedKeys="true">
+ 	  insert into issue (issue_state_id, issue_name, prize_name, 
+      prize_money, prize_img, yet_bet_num, 
+      all_bet_num, block_number, luck_number, 
+      abort_time, lottery_time) values
+ 	<foreach collection="list" item="issue" separator=",">
+ 	 (#{issueStateId,jdbcType=INTEGER}, #{issueName,jdbcType=VARCHAR}, #{prizeName,jdbcType=VARCHAR}, 
+      #{prizeMoney,jdbcType=DECIMAL}, #{prizeImg,jdbcType=VARCHAR}, #{yetBetNum,jdbcType=INTEGER}, 
+      #{allBetNum,jdbcType=INTEGER}, #{blockNumber,jdbcType=BIGINT}, #{luckNumber,jdbcType=INTEGER}, 
+      #{abortTime,jdbcType=TIMESTAMP}, #{lotteryTime,jdbcType=TIMESTAMP})
+ 	</foreach>
+  </insert>
+ <!--  通过id查询期号信息 -->
+   <select id="findIssueById" parameterType="java.lang.Integer" resultMap="BaseResultVoMap">
+  	 SELECT * FROM issue,issue_state WHERE issue.issue_state_id=issue_state.issue_state_id and issue_id = #{issueId,jdbcType=INTEGER}
+  </select>
+  <!-- 查询今天所有期号列表信息 -->
+  <select id="findIssueByDay" resultMap="BaseResultVoMap">
+    SELECT * FROM issue,issue_state WHERE issue.issue_state_id=issue_state.issue_state_id AND issue.issue_name LIKE CONCAT('%',#{day} ,'%')
+  </select>
+  <!--通过开奖状态ID查询期号列表 -->
+  <select id="findIssueByStateId" resultMap="BaseResultMap">
+    SELECT * FROM issue WHERE issue_state_id = #{issueStateId}
+  </select>
+  <!-- 获取用户参与总条数 -->	
+  <select id="findParticipateCount" resultType="int">
+  	SELECT COUNT(DISTINCT i.issue_id) FROM issue i,bet WHERE i.issue_id = bet.issue_id AND bet.user_id=#{userId}
+  </select>
+  <!-- 获取用户参与记录 -->	
+  <select id="findParticipateRecord" resultMap="BaseResultVoMap">
+ 	 SELECT DISTINCT i.*,bet.is_winning FROM issue i,bet WHERE i.issue_id = bet.issue_id AND bet.user_id=#{userId} ORDER BY issue_name DESC LIMIT #{startIndex},#{pageSize}
+  </select>
+</mapper>
